@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AfterHours Starland ID Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      text-align: center;
+      width: 400px;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #38bdf8;
+      color: black;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .output {
+      margin-top: 20px;
+      font-size: 20px;
+      word-wrap: break-word;
+    }
+    .small {
+      font-size: 14px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="Ah logo.png" alt="AfterHours Logo" style="width:100%; max-width:300px; margin-bottom:15px; border-radius:10px;">
+    <h2>AfterHours Starland ID</h2>
+    <input type="text" id="ignInput" placeholder="Enter your IGN">
+    <br>
+    <button onclick="generateToken()">Generate Symbol Token</button>
+    <div class="output" id="symbolOutput"></div>
+    <div class="small" id="codeOutput"></div>
+  </div>
+
+  <script>
+    // 120+ special symbols pool
+    const symbols = [
+      "☀","☁","☂","☃","★","☆","✦","✧","✩","✪","✫","✬","✭","✮","✯","✰",
+      "✱","✲","✳","✴","✵","✶","✷","✸","✹","✺","✻","✼","✽","✾","✿","❀",
+      "❁","❂","❃","❄","❅","❆","❇","❈","❉","❊","❋","❖","♠","♣","♥","♦",
+      "♤","♧","♡","♢","♔","♕","♖","♗","♘","♙","♚","♛","♜","♝","♞","♟",
+      "☯","☮","☢","☣","☠","⚔","⚖","⚜","⚡","⚝","⚠","⚫","⚪","⚬","⚭","⚮",
+      "⚯","⚰","⚱","⚲","⚳","⚴","⚵","⚶","⚷","⚸","⚹","⚺","⚻","⚼","⚽","⚾",
+      "⚿","⛀","⛁","⛂","⛃","⛄","⛅","⛆","⛇","⛈","⛉","⛊","⛋","⛌","⛍","⛎"
+    ];
+
+    // simple hash from IGN
+    function hashIGN(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      return Math.abs(hash);
+    }
+
+    function generateToken() {
+      const ign = document.getElementById("ignInput").value.trim();
+      if (!ign) return;
+
+      const hash = hashIGN(ign);
+      const index = hash % symbols.length;
+      const symbol = symbols[index];
+
+      // Optional: pseudo ALT code display (Unicode)
+      const code = symbol.codePointAt(0);
+
+      document.getElementById("symbolOutput").innerText = symbol;
+      document.getElementById("codeOutput").innerText = `Unicode: U+${code.toString(16).toUpperCase()}`;
+    }
+  </script>
+</body>
+</html>
